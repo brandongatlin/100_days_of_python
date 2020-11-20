@@ -23,7 +23,7 @@ def get_tip_percentage():
   chosen_tip_percentage = input('What tip percentage do you want to give? (.10, .15 or .18) ')
   try:
     chosen_tip_percentage = float(chosen_tip_percentage)
-    if(chosen_tip_percentage in allowable_percentages):
+    if chosen_tip_percentage in allowable_percentages:
       return chosen_tip_percentage
   except ValueError as e:
     print(e)
