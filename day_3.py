@@ -66,8 +66,6 @@ def game():
 
   game_over()
 
-
-
 game()
 
   
