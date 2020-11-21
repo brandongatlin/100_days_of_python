@@ -20,7 +20,10 @@ def are_more_bidders():
   res = input('Are there more bidders? (Y/N) \n')[0].upper()
   if res == 'Y':
     return True
-  return False
+  elif res == 'N':
+    return False
+  else:
+    return are_more_bidders()
 
 def auction():
   global more_bidders
