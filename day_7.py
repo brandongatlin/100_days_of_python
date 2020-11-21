@@ -1,3 +1,4 @@
+from os import system
 from random import choice
 import word_bank
 
@@ -17,6 +18,7 @@ def check_guess(guess, word):
   return False
 
 def print_word_status(word):
+  system('clear')
   for letter in word:
     if letter in guessed_list:
       print(letter)
@@ -40,7 +42,6 @@ def game():
   game_over = False
   
   while not game_over:
-    
     guess = get_player_guess()
     if guess not in guessed_list:
       guessed_list.append(guess)
@@ -56,7 +57,7 @@ def game():
       if won(word):
         print('You won!')
         game_over = True
-    
+
     
 game()
   
