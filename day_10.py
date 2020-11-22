@@ -24,22 +24,21 @@ def get_number_input(operator=None):
     return get_number_input()
   return res
   
-
 def continue_calculation(current_value):
   res = input(f'Type YES to continue calcuating with {current_value}, type NO to start a new calculation or type END to end the program ')[0].upper()
   if res == 'Y':
     return True
-  elif res == 'E':
-    sys.exit()
-  else:
+  elif res == 'N':
     return False
+  else:
+    print('Goodbye')
+    return sys.exit()
   
 def calculator():
   still_calculating = True
   temp = 0
   
   while still_calculating:
-    
     if temp == 0:
       num_one = get_number_input()
     else:
