@@ -18,7 +18,7 @@ def get_operator():
   return chosen_operator
 
 def get_number_input(operator=None):
-  res = int(input('Enter the number '))
+  res = float(input('Enter the number '))
   if operator == '/' and res == 0:
     print('Cannot divide by 0 ')
     return get_number_input()
