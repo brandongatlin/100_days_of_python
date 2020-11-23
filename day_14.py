@@ -33,11 +33,14 @@ def game():
   score = 0
   game_on = True
   data = get_data()
+  target_one = get_next(data)
   
   while game_on:
-    target_one = get_next(data)
+    old_one = target_one or None
+    target_one = old_one
     target_two = get_next(data)
-    data.remove(target_one)
+    if target_one in data:
+      data.remove(target_one)
     data.remove(target_two)
     print_question(target_one, target_two)
     guess = get_guess()
@@ -45,6 +48,7 @@ def game():
     if game_on:
       score += 1
       print(f"Score: {score}")
+    target_one = target_two
     
 game()
     
