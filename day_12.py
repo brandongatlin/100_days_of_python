@@ -74,12 +74,12 @@ def game():
       attempts -= 1
     elif 'Win' in res:
       game_on = False
+    
+    if attempts < 1:
+      print('You lose...')
+    else:
+      print(f"Attempts Remaining: {attempts}")
       
-    print(f"Attempted Remaining: {attempts}")
-      
-  if attempts < 1:
-    print('You lose...')
-  
   if replay():
     system('clear')
     return game()
