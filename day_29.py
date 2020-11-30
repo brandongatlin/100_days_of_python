@@ -1,6 +1,8 @@
+from json.decoder import JSONDecodeError
 from tkinter import *
 from tkinter import messagebox
 import pyperclip
+import json
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 def gen_password():
@@ -11,16 +13,31 @@ def save_password():
   username = email_input.get()
   password = password_input.get()
   
+  new_entry = {
+    site: {
+      "username": username,
+      "password": password,
+    }
+  }
+  
   if site == '' or username == '' or password == '':
     return messagebox.showerror(message='You forgot to enter all the data')
   
   confirm = messagebox.askyesno(message=f"You entered: \n {site} \n {username} \n {password} \n Save?")
   if confirm:
-    with open('passwords.txt', 'a') as file:
-      file.write(f"\n{site},{username},{password}")
+    with open('passwords.json', 'r') as file:
+      # file.write(f"\n{site},{username},{password}")
+      data = new_entry
+      try:
+        data = json.load(file)
+        data.update(new_entry)
+      except JSONDecodeError as e:
+        print(e)
+        
+    with open('passwords.json', 'w') as file:
+      json.dump(data, file, indent=2)
       messagebox.showinfo(message='Saved!')
       pyperclip.copy(password)
-      file.close()
   website_input.delete(0, 'end')
   email_input.delete(0, 'end')
   email_input.insert(0, 'brandongatlin1981@me.com')
