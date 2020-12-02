@@ -25,23 +25,50 @@ def save_password():
   
   confirm = messagebox.askyesno(message=f"You entered: \n {site} \n {username} \n {password} \n Save?")
   if confirm:
-    with open('passwords.json', 'r') as file:
-      # file.write(f"\n{site},{username},{password}")
-      data = new_entry
-      try:
-        data = json.load(file)
-        data.update(new_entry)
-      except JSONDecodeError as e:
-        print(e)
+    data = new_entry
+
+    try:
+      with open('passwords.json', 'r') as file:
+        try:
+          data = json.load(file)
+          data.update(new_entry)
+        except JSONDecodeError as e:
+          print(e)
+    except FileNotFoundError as e:
+      print(e)
+      open('passwords.json', 'w').close()
         
     with open('passwords.json', 'w') as file:
       json.dump(data, file, indent=2)
       messagebox.showinfo(message='Saved!')
       pyperclip.copy(password)
+      
   website_input.delete(0, 'end')
   email_input.delete(0, 'end')
   email_input.insert(0, 'brandongatlin1981@me.com')
   password_input.delete(0, 'end')
+  
+  
+def search_password():
+  site = website_input.get()
+  with open('passwords.json', 'r') as file:
+    passwords = json.load(file)
+    found = None
+    try:
+      found = passwords[site]
+    except KeyError as e:
+      print(e)
+    if found:
+      msg = f"""
+      {site}
+      {found['username']}
+      {found['password']}
+      """
+      messagebox.showinfo(message=msg)
+    else:
+      messagebox.showerror(message='Not Found')
+  website_input.delete(0, 'end')
+    
   
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
@@ -63,6 +90,8 @@ password_lbl.grid(row=3, column=0)
 website_input = Entry(width=35, border=1.2)
 website_input.focus()
 website_input.grid(row=1, column=1, columnspan=2)
+search_btn = Button(text='Search', command=search_password)
+search_btn.grid(row=1, column=2)
 email_input = Entry(width=35, border=1.2)
 email_input.insert(0, 'brandongatlin1981@me.com')
 email_input.grid(row=2, column=1, columnspan=2)
