@@ -4,6 +4,7 @@ from random import choice
 from Flashcard import Deck, Flashcard
 
 session_done = False
+timer_interval = None
 
 def get_words():
   with open('Body Parts Dictionary.csv', 'r') as file:
@@ -11,7 +12,6 @@ def get_words():
 
 def get_next_word():
   global deck
-  
   unknowns = deck.get_unknowns()
   if unknowns:
     return choice(deck.get_unknowns())
@@ -31,10 +31,18 @@ def knows_word():
   else:
     canvas.itemconfigure(current_word_lbl, text=current_word.l2_word)
   
-def unknown_word():
+def show_latin():
   global current_word
+  window.after_cancel(timer_interval)
   current_word = get_next_word()
   canvas.itemconfigure(current_word_lbl, text=current_word.l2_word)
+  
+
+def unknown_word():
+  global timer_interval
+  canvas.itemconfigure(current_word_lbl, text=current_word.l1_word)
+  timer_interval = window.after(3000, show_latin)
+  
 
 window = Tk()
 window.title('Flash Cards')
